@@ -9,13 +9,13 @@ import { RootState } from "@/redux/store";
 import { setTodos } from "@/redux/slices/todosSlice";
 
 interface Props {
-  item: ITodo;
+  task: ITodo;
   refetch: () => void;
 }
 
 // <<===============|| CHECK TODO - COMPONENT ||===============>>
 
-export default function CheckTodo({ item, refetch }: Props) {
+export default function CheckTodo({ task, refetch }: Props) {
   const [updateTodo, { isLoading }] = useUpdateTodoMutation();
   const todos = useSelector((state: RootState) => state.todos.todos);
   const dispatch = useDispatch();
@@ -23,8 +23,8 @@ export default function CheckTodo({ item, refetch }: Props) {
   const handleUpdate = async () => {
     try {
       const updatedTodo = await updateTodo({
-        _id: item._id,
-        is_completed: !item.is_completed,
+        _id: task._id,
+        is_completed: !task.is_completed,
       }).unwrap();
 
       const updatedTodos = todos.map((todo) =>
@@ -42,7 +42,7 @@ export default function CheckTodo({ item, refetch }: Props) {
       checkedIcon={<CheckCircleIcon />}
       onChange={handleUpdate}
       disabled={isLoading}
-      checked={item.is_completed}
+      checked={task.is_completed}
     />
   );
 }

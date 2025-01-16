@@ -1,34 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 // material-ui
-import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
-import Divider from "@mui/material/Divider";
-import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import { useTheme } from "@mui/material";
+import Box from '@mui/material/Box'
+import Skeleton from '@mui/material/Skeleton'
+import Divider from '@mui/material/Divider'
+import Stack from '@mui/material/Stack'
+import Paper from '@mui/material/Paper'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material'
 
 // project-imports
-import TodoCard from "./TodoCard";
-import CreateTask from "./CreateTask";
-import { ITodo } from "@/interfaces/todo";
+import TodoCard from './TaskCard'
+import CreateTask from './CreateTask'
+import { ITodo } from '@/interfaces/todo'
 
 interface Props {
-  children?: React.ReactNode;
-  isLoading: boolean;
+  children?: React.ReactNode
+  isLoading: boolean
 }
 
 // <<===============|| TODO LIST SKELETON ||===============>>
 
 export default function TodoListSkeleton({ children, isLoading }: Props) {
-  const theme = useTheme();
-  const [isMounting, setIsMounting] = useState(true);
+  const theme = useTheme()
+  const [isMounting, setIsMounting] = useState(true)
 
   useEffect(() => {
-    setIsMounting(false);
-  }, []);
+    setIsMounting(false)
+  }, [])
   return (
     <>
       {isLoading || isMounting ? (
@@ -89,5 +89,5 @@ export default function TodoListSkeleton({ children, isLoading }: Props) {
         children
       )}
     </>
-  );
+  )
 }
