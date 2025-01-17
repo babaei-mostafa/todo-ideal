@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography'
 import { ITodo } from '@/interfaces/todo'
 import CheckTodo from './CheckTodo'
 import TaskTitle from './TaskTitle'
+import { formatTimeRange, isTody, isTomorrow } from '@/utils/date'
+import { daysArray } from './constants/daysArray'
 
 interface Props {
   task: ITodo
@@ -26,7 +28,7 @@ export default function TaskCard({
 }: Props) {
   return (
     <Paper sx={{ py: 2, px: 3 }}>
-      <Stack direction="row" justifyContent="space-between">
+      <Stack direction="row" justifyContent="space-between" alignItems="start">
         <Stack spacing={1}>
           <TaskTitle
             task={task}
@@ -34,7 +36,10 @@ export default function TaskCard({
             setIsDetailsModalOpen={setIsDetailsModalOpen}
             setSelectedTask={setSelectedTask}
           />
-          <Typography variant="body2" sx={{ opacity: 0.7 }}>
+          <Typography
+            variant="body2"
+            sx={{ opacity: 0.7, fontSize: { xs: 11, sm: 16, md: 18 } }}
+          >
             {task.description}
           </Typography>
         </Stack>
@@ -43,10 +48,14 @@ export default function TaskCard({
       <Divider sx={{ my: 2 }} />
       <Stack direction="row" spacing={2}>
         <Typography variant="body2" sx={{ opacity: 0.7 }}>
-          Today
+          {isTody(task.start_date)
+            ? 'Today'
+            : isTomorrow(task.start_date)
+            ? 'Tomorrow'
+            : daysArray[new Date(task.start_date).getDay()]}
         </Typography>
         <Typography variant="body2" sx={{ opacity: 0.5 }}>
-          09:15 - 10:00
+          {formatTimeRange(task.start_date, task.end_date)}
         </Typography>
       </Stack>
     </Paper>

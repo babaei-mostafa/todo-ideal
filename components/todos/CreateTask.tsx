@@ -10,8 +10,12 @@ export default function CreateTask() {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <StyledButton variant="contained" onClick={() => setOpen(true)}>
-        <span className="text-xl mr-2">+</span> New Task
+      <StyledButton
+        variant="contained"
+        onClick={() => setOpen(true)}
+        sx={{ fontSize: { xs: 11, sm: 16, md: 18 } }}
+      >
+        + New Task
       </StyledButton>
       <CreateTaskModal open={open} setOpen={setOpen} />
     </>

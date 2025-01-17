@@ -10,7 +10,9 @@ import { useTheme } from '@mui/material'
 import TaskCard from './TaskCard'
 import CreateTask from './CreateTask'
 import { ITodo } from '@/interfaces/todo'
+import NoTaskComponent from '../Common/NoTask'
 import TaskDetailsModal from './TaskDetailsModal'
+import { daysArray, monthsArray } from './constants/daysArray'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -48,6 +50,7 @@ export default function TaskListPanel({ todos, value, index }: Props) {
   const theme = useTheme()
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [selectedTask, setSelectedTask] = useState<ITodo | null>(null)
+  const now = new Date()
 
   return (
     <Box sx={{ backgroundColor: theme.palette.secondary.main }}>
@@ -58,25 +61,56 @@ export default function TaskListPanel({ todos, value, index }: Props) {
           alignItems="center"
         >
           <Stack>
-            <Typography variant="h5" sx={{ fontWeight: 700 }}>
-              Tody's Task
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: 700, fontSize: { xs: 14, sm: 16, md: 18 } }}
+            >
+              {index === 0
+                ? 'Today'
+                : index === 1
+                ? 'Tomorrow'
+                : daysArray[
+                    new Date(
+                      now.getTime() + index * 24 * 60 * 60 * 1000
+                    ).getDay()
+                  ]}
+              's Task
             </Typography>
-            <Typography variant="caption">Wednesday, 11 May</Typography>
+            <Typography
+              variant="caption"
+              sx={{ fontSize: { xs: 11, sm: 12, md: 14 } }}
+            >
+              {`${
+                daysArray[
+                  new Date(now.getTime() + index * 24 * 60 * 60 * 1000).getDay()
+                ]
+              }, ${new Date(
+                now.getTime() + index * 24 * 60 * 60 * 1000
+              ).getDate()} ${
+                monthsArray[
+                  new Date(
+                    now.getTime() + index * 24 * 60 * 60 * 1000
+                  ).getMonth()
+                ]
+              }`}
+            </Typography>
           </Stack>
           <CreateTask />
         </Stack>
-        <Stack sx={{ p: 2 }} spacing={4}>
-          {todos && todos?.length
-            ? todos?.map((task) => (
-                <TaskCard
-                  isDetailsModalOpen={isDetailsModalOpen}
-                  setIsDetailsModalOpen={setIsDetailsModalOpen}
-                  task={task}
-                  setSelectedTask={setSelectedTask}
-                  key={`task-${task._id}`}
-                />
-              ))
-            : null}
+        <Stack sx={{ py: 2, px: 1 }} spacing={4}>
+          {todos && todos?.length ? (
+            todos?.map((task) => (
+              <TaskCard
+                isDetailsModalOpen={isDetailsModalOpen}
+                setIsDetailsModalOpen={setIsDetailsModalOpen}
+                task={task}
+                setSelectedTask={setSelectedTask}
+                key={`task-${task._id}`}
+              />
+            ))
+          ) : (
+            <NoTaskComponent />
+          )}
         </Stack>
         <TaskDetailsModal
           open={isDetailsModalOpen}

@@ -10,7 +10,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 
 // project-imports
 import { ITodo } from '@/interfaces/todo'
-// import TaskDetailsModal from './TaskDetailsModal'
 import RemoveTaskModal from './RemoveTaskModal'
 
 interface Props {
@@ -74,6 +73,7 @@ export default function TaskTitle({
         sx={{
           cursor: 'pointer',
           textDecoration: task.is_completed ? 'line-through' : 'none',
+          fontSize: { xs: 13, sm: 16, md: 18 },
         }}
       >
         {task.title}

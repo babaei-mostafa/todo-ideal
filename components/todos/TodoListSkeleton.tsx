@@ -6,14 +6,8 @@ import Skeleton from '@mui/material/Skeleton'
 import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
-import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material'
-
-// project-imports
-import TodoCard from './TaskCard'
-import CreateTask from './CreateTask'
-import { ITodo } from '@/interfaces/todo'
+import Container from '@mui/material/Container'
 
 interface Props {
   children?: React.ReactNode

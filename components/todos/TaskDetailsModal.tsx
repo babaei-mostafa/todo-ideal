@@ -3,21 +3,20 @@ import { useEffect } from 'react'
 // material-ui
 import DialogContent from '@mui/material/DialogContent'
 import List from '@mui/material/List'
-import Grid from '@mui/material/Grid2'
-import MenuItem from '@mui/material/MenuItem'
+import ListItem from '@mui/material/ListItem'
 import Skeleton from '@mui/material/Skeleton'
 import Stack from '@mui/material/Stack'
-import Typography from '@mui/material/Typography'
 
 // third-party
+import toast from 'react-hot-toast'
 
 // project-imports
 
 import Modal from '../Common/Modal'
 import { ITodo } from '@/interfaces/todo'
-import { useGetSingleTodoQuery } from '@/redux/services/todosApi'
 import { IApiError } from '@/interfaces/error'
-import toast from 'react-hot-toast'
+import { useGetSingleTodoQuery } from '@/redux/services/todosApi'
+import { formatDate, formatTime } from '@/utils/date'
 
 interface Props {
   open: boolean
@@ -46,7 +45,7 @@ export default function TaskDetailsModal({ open, setOpen, task }: Props) {
 
   return (
     <Modal open={open} setOpen={setOpen} title="task details">
-      <DialogContent sx={{ minWidth: [250, 350, 450, 600] }}>
+      <DialogContent>
         {isLoading ? (
           <Stack spacing={2}>
             {Array.from({ length: 4 }).map((_, idx) => (
@@ -59,24 +58,22 @@ export default function TaskDetailsModal({ open, setOpen, task }: Props) {
             ))}
           </Stack>
         ) : data ? (
-          <Grid container spacing={1}>
-            <Grid size={2}>Title:</Grid>
-            <Grid size={10} pl={1}>
-              {data.title}
-            </Grid>
-            <Grid size={2}>Start Date:</Grid>
-            <Grid size={10} pl={1}>
-              {data.start_date}
-            </Grid>
-            <Grid size={2}>End Date:</Grid>
-            <Grid size={10} pl={1}>
-              {data.end_date}
-            </Grid>
-            <Grid size={2}>Description:</Grid>
-            <Grid size={10} pl={1}>
-              {data.description}
-            </Grid>
-          </Grid>
+          <List>
+            <ListItem>Title: {data.title}</ListItem>
+            <ListItem>
+              Start Date:{' '}
+              {`${formatDate(new Date(data.start_date))}, ${formatTime(
+                new Date(data.start_date)
+              )}`}
+            </ListItem>
+            <ListItem>
+              End Date:{' '}
+              {`${formatDate(new Date(data.end_date))}, ${formatTime(
+                new Date(data.end_date)
+              )}`}
+            </ListItem>
+            <ListItem>Description: {data.title}</ListItem>
+          </List>
         ) : null}
       </DialogContent>
     </Modal>

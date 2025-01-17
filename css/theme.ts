@@ -34,6 +34,14 @@ export const theme = createTheme({
         },
       },
     },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          '& button': { color: 'black !important', fontWeight: 600 },
+          '& .MuiTabs-indicator': { backgroundColor: 'black' },
+        },
+      },
+    },
   },
 })
 
