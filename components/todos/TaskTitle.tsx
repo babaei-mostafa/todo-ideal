@@ -10,20 +10,28 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 
 // project-imports
 import { ITodo } from '@/interfaces/todo'
-import TaskDetailsModal from './TaskDetailsModal'
+// import TaskDetailsModal from './TaskDetailsModal'
 import RemoveTaskModal from './RemoveTaskModal'
 
 interface Props {
   task: ITodo
+  isDetailsModalOpen: boolean
+  setIsDetailsModalOpen: (state: boolean) => void
+  setSelectedTask: (state: ITodo | null) => void
 }
 
 // <<===============|| TASK TITLE - COMPONENT ||===============>>
 
-export default function TaskTitle({ task }: Props) {
+export default function TaskTitle({
+  task,
+  isDetailsModalOpen,
+  setIsDetailsModalOpen,
+  setSelectedTask,
+}: Props) {
   const theme = useTheme()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const isMenuOpen = Boolean(anchorEl)
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
+
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -36,6 +44,7 @@ export default function TaskTitle({ task }: Props) {
   const handleViewClick = () => {
     setIsDetailsModalOpen(true)
     handleClose()
+    setSelectedTask(task)
   }
 
   const handleRemoveClick = () => {
@@ -54,6 +63,7 @@ export default function TaskTitle({ task }: Props) {
       document.body.style.overflowY = 'auto'
     }
   }, [isMenuOpen])
+
   return (
     <>
       <Typography
@@ -94,13 +104,10 @@ export default function TaskTitle({ task }: Props) {
           remove
         </MenuItem>
       </Menu>
-      <TaskDetailsModal
-        open={isDetailsModalOpen}
-        setOpen={setIsDetailsModalOpen}
-      />
       <RemoveTaskModal
         open={isRemoveModalOpen}
         setOpen={setIsRemoveModalOpen}
+        task={task}
       />
     </>
   )

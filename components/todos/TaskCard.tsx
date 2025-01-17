@@ -11,22 +11,34 @@ import TaskTitle from './TaskTitle'
 
 interface Props {
   task: ITodo
-  refetchList: () => void
+  isDetailsModalOpen: boolean
+  setIsDetailsModalOpen: (state: boolean) => void
+  setSelectedTask: (state: ITodo | null) => void
 }
 
 // <<===============|| TASK CARD - COMPONENT ||===============>>
 
-export default function TaskCard({ task, refetchList }: Props) {
+export default function TaskCard({
+  task,
+  isDetailsModalOpen,
+  setIsDetailsModalOpen,
+  setSelectedTask,
+}: Props) {
   return (
     <Paper sx={{ py: 2, px: 3 }}>
       <Stack direction="row" justifyContent="space-between">
         <Stack spacing={1}>
-          <TaskTitle task={task} />
+          <TaskTitle
+            task={task}
+            isDetailsModalOpen={isDetailsModalOpen}
+            setIsDetailsModalOpen={setIsDetailsModalOpen}
+            setSelectedTask={setSelectedTask}
+          />
           <Typography variant="body2" sx={{ opacity: 0.7 }}>
             {task.description}
           </Typography>
         </Stack>
-        <CheckTodo refetch={refetchList} task={task} />
+        <CheckTodo task={task} />
       </Stack>
       <Divider sx={{ my: 2 }} />
       <Stack direction="row" spacing={2}>

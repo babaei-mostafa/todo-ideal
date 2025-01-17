@@ -24,12 +24,7 @@ interface Props {
   children: ReactNode
 }
 
-export default function Modal({
-  open,
-  setOpen,
-  title,
-  children,
-}: Props) {
+export default function Modal({ open, setOpen, title, children }: Props) {
   const handleClickOpen = () => {
     setOpen(true)
   }
@@ -59,14 +54,8 @@ export default function Modal({
       onClose={handleClose}
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        {children}
-        {/* <DialogContentText id="alert-dialog-slide-description">
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
-        </DialogContentText> */}
-      </DialogContent>
+      <DialogTitle sx={{ textTransform: 'capitalize' }}>{title}</DialogTitle>
+      <DialogContent>{children}</DialogContent>
     </Dialog>
   )
 }

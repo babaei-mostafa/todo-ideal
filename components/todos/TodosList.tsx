@@ -4,59 +4,36 @@ import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
-import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
-import { useTheme } from '@mui/material'
 
 // project-imports
-import TaskCard from './TaskCard'
-import CreateTask from './CreateTask'
 import { ITodo } from '@/interfaces/todo'
-
-interface TabPanelProps {
-  children?: React.ReactNode
-  index: number
-  value: number
-}
-
-// <<===============|| CUSTOM TAB PANEL ||===============>>
-
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  )
-}
+import { isTody, isTomorrow } from '@/utils/date'
+import TaskListPanel from './TaskListPanel'
 
 function a11yProps(index: number) {
   return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    id: `tasks-tab-${index}`,
+    'aria-controls': `tasks-tabpanel-${index}`,
   }
 }
 
 interface Props {
   todos: ITodo[] | undefined
-  refetch: () => void
 }
 
 // <<===============|| TODOS LIST - COMPONENT ||===============>>
 
-export default function TodosListComponent({ todos, refetch }: Props) {
-  const theme = useTheme()
+export default function TodosListComponent({ todos }: Props) {
   const [value, setValue] = useState(0)
-  const [open, setOpen] = useState(false)
+
+  const todaysTasks = todos
+    ? todos.filter((todo) => isTody(todo.start_date))
+    : []
+  const tomorrowsTasks = todos
+    ? todos.filter((todo) => isTomorrow(todo.start_date))
+    : []
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -77,37 +54,8 @@ export default function TodosListComponent({ todos, refetch }: Props) {
               <Tab label="Tomorrow's Task" {...a11yProps(1)} />
             </Tabs>
           </Box>
-          <Box sx={{ backgroundColor: theme.palette.secondary.main }}>
-            <CustomTabPanel value={value} index={0}>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Stack>
-                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                    Tody's Task
-                  </Typography>
-                  <Typography variant="caption">Wednesday, 11 May</Typography>
-                </Stack>
-                <CreateTask />
-              </Stack>
-              <Stack sx={{ p: 2 }} spacing={4}>
-                {todos && todos?.length
-                  ? todos?.map((task) => (
-                      <TaskCard
-                        refetchList={refetch}
-                        task={task}
-                        key={`task-${task._id}`}
-                      />
-                    ))
-                  : null}
-              </Stack>
-            </CustomTabPanel>
-          </Box>
-          <CustomTabPanel value={value} index={1}>
-            Item Two
-          </CustomTabPanel>
+          <TaskListPanel todos={todaysTasks} value={value} index={0} />
+          <TaskListPanel todos={tomorrowsTasks} value={value} index={1} />
         </Box>
       </Paper>
     </Container>
