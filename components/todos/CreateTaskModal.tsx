@@ -70,6 +70,7 @@ export default function CreateTaskModal({ open, setOpen }: Props) {
               errors={errors}
               setFieldValue={setFieldValue}
               resetForm={resetForm}
+              isLoading={isLoading}
             />
           )}
         </Formik>

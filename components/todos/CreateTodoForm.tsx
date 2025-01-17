@@ -29,6 +29,7 @@ interface Props {
   resetForm: (
     nextState?: Partial<FormikState<IAddTodoBody>> | undefined
   ) => void
+  isLoading: boolean
 }
 
 // <<===============|| CREATE TODO FORM - COMPONENT ||===============>>
@@ -43,6 +44,7 @@ export default function CreateTodoForm({
   setFieldValue,
   touched,
   resetForm,
+  isLoading,
 }: Props) {
   useEffect(() => {
     if (!open) {
@@ -104,7 +106,9 @@ export default function CreateTodoForm({
         </Grid>
       </Grid>
       <DialogActions>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isLoading}>
+          Submit
+        </Button>
         <Button type="button" onClick={handleClickCancel}>
           Cancel
         </Button>

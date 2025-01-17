@@ -57,7 +57,7 @@ export default function RemoveTaskModal({ open, setOpen, task }: Props) {
         action cannot be undone.
       </DialogContentText>
       <DialogActions>
-        <Button color="error" onClick={handleRemove}>
+        <Button color="error" onClick={handleRemove} disabled={isLoading}>
           Remove
         </Button>
         <Button onClick={handleCancel}>Cancel</Button>
